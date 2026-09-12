@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Test of Orals - English Quiz</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            color: #222;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #173b70;
+        }
+
+        h2 {
+            color: #173b70;
+        }
+
+        .rules {
+            background: #f4f7fb;
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.7;
+        }
+
+        .rules li {
+            margin-bottom: 8px;
+        }
+
+        .button {
+            background: #173b70;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background: #0e2a52;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin: 10px 0 20px;
+            border: 1px solid #bbb;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f4f7fb;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        #timer {
+            color: #c62828;
+        }
+
+        .question {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 25px 0 15px;
+        }
+
+        .answer {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: white;
+            border: 1px solid #bbb;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .answer:hover {
+            background: #f0f4fa;
+        }
+
+        .answer.selected {
+            background: #d9e8ff;
+            border: 2px solid #173b70;
+        }
+
+        .section-title {
+            background: #173b70;
+            color: white;
+            padding: 12px;
+            border-radius: 7px;
+            text-align: center;
+        }
+
+        .submit-button {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .result {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .pass {
+            color: green;
+        }
+
+        .fail {
+            color: red;
+        }
+
+        .review {
+            margin-top: 30px;
+        }
+
+        .review-question {
+            padding: 15px;
+            margin: 15px 0;
+            background: #f7f7f7;
+            border-radius: 8px;
+        }
+
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+
+        .wrong {
+            color: red;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- RULES PAGE -->
+
+    <div id="rulesPage">
+
+        <h1>Test of Orals in English</h1>
+
+        <h2>Instructions and Rules</h2>
+
+        <div class="rules">
+
+            <ol>
+                <li>The test contains <strong>20 questions</strong>.</li>
+
+                <li>The test is divided into <strong>two sections</strong>.</li>
+
+                <li>Section A contains 10 questions.</li>
+
+                <li>Section B contains 10 questions.</li>
+
+                <li>You have <strong>7 minutes</strong> to complete the test.</li>
+
+                <li>Only one answer should be selected for each question.</li>
+
+                <li>The questions are randomly selected, so they may be different when you retake the test.</li>
+
+                <li>The correct answers will not be shown while you are taking the test.</li>
+
+                <li>The test will be submitted automatically when the 7 minutes are over.</li>
+
+                <li>You need a minimum score of <strong>16 out of 20</strong> to pass.</li>
+
+                <li>A score of <strong>16–20 is PASS</strong>.</li>
+
+                <li>A score of <strong>0–15 is FAIL</strong>.</li>
+
+                <li>After submission, your score, result and correct answers will be displayed.</li>
+            </ol>
+
+        </div>
+
+        <br>
+
+        <button class="button" onclick="showNamePage()">
+            I Understand - Continue
+        </button>
+
+    </div>
+
+
+    <!-- NAME PAGE -->
+
+    <div id="namePage" class="hidden">
+
+        <h1>Candidate Information</h1>
+
+        <p>Please enter your name before starting the test.</p>
+
+        <label for="candidateName">Full Name</label>
+
+        <input
+            type="text"
+            id="candidateName"
+            placeholder="Enter your full name"
+        >
+
+        <button class="button" onclick="startTest()">
+            Start Test
+        </button>
+
+    </div>
+
+
+    <!-- QUIZ PAGE -->
+
+    <div id="quizPage" class="hidden">
+
+        <div class="top-bar">
+
+            <span id="progress">
+                Question 1 of 20
+            </span>
+
+            <span id="timer">
+                Time: 07:00
+            </span>
+
+        </div>
+
+        <h2 id="sectionTitle" class="section-title">
+            Section A
+        </h2>
+
+        <div id="questionNumber"></div>
+
+        <div id="questionText" class="question"></div>
+
+        <div id="answers"></div>
+
+        <button
+            id="nextButton"
+            class="button submit-button"
+            onclick="nextQuestion()"
+        >
+            Next Question
+        </button>
+
+    </div>
+
+
+    <!-- RESULT PAGE -->
+
+    <div id="resultPage" class="hidden">
+
+        <div class="result">
+
+            <h1>Test Result</h1>
+
+            <h2 id="candidateResultName"></h2>
+
+            <h2 id="scoreText"></h2>
+
+            <h2 id="passFail"></h2>
+
+            <p id="resultMessage"></p>
+
+        </div>
+
+        <div class="review">
+
+            <h2>Answer Review</h2>
+
+            <div id="reviewAnswers"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================================
+       QUESTION BANK
+       ========================================= */
+
+    const questionBank = [
+
+        {
+            section: "A",
+            question: "Which word has the same vowel sound as 'seat'?",
+            options: ["sit", "beat", "set", "sat"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word has the same vowel sound as 'food'?",
+            options: ["good", "mood", "blood", "wood"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word begins with the /ʃ/ sound?",
+            options: ["ship", "chip", "sip", "zip"],
+            answer: 0
+        },
+
+        {
+            section: "A",
+            question: "Which word begins with the /tʃ/ sound?",
+            options: ["ship", "cheap", "sheep", "sip"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word contains the /θ/ sound?",
+            options: ["then", "thin", "den", "sin"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word contains the /ð/ sound?",
+            options: ["thin", "then", "sin", "tin"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word begins with the /dʒ/ sound?",
+            options: ["judge", "church", "shoe", "zoo"],
+            answer: 0
+        },
+
+        {
+            section: "A",
+            question: "Which word begins with the /f/ sound?",
+            options: ["van", "fan", "ban", "man"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word has the same vowel sound as 'sit'?",
+            options: ["seat", "hit", "heat", "hate"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word has the same vowel sound as 'car'?",
+            options: ["cap", "care", "far", "cut"],
+            answer: 2
+        },
+
+        {
+            section: "A",
+            question: "Which word has a different vowel sound?",
+            options: ["cat", "hat", "car", "bat"],
+            answer: 2
+        },
+
+        {
+            section: "A",
+            question: "Which word has a different vowel sound?",
+            options: ["ship", "sit", "sheep", "bit"],
+            answer: 2
+        },
+
+        {
+            section: "A",
+            question: "Which word has the same vowel sound as 'bed'?",
+            options: ["bad", "bird", "said", "bid"],
+            answer: 2
+        },
+
+        {
+            section: "A",
+            question: "Which word begins with the /v/ sound?",
+            options: ["fan", "van", "ban", "pan"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word begins with the /z/ sound?",
+            options: ["sip", "zip", "ship", "chip"],
+            answer: 1
+        },
+
+        {
+            section: "A",
+            question: "Which word contains the /ŋ/ sound?",
+            options: ["sing", "sin", "sit", "sip"],
+            answer: 0
+        },
+
+        {
+            section: "A",
+            question: "Which word begins with the /k/ sound?",
+            options: ["cat", "chat", "that", "vat"],
+            answer: 0
+        },
+
+        {
+            section: "A",
+            question: "Which word begins with the /g/ sound?",
+            options: ["go", "shoe", "choo", "zoo"],
+            answer: 0
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'light'?",
+            options: ["late", "might", "let", "lot"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'chair'?",
+            options: ["cheer", "share", "shore", "sure"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'day'?",
+            options: ["die", "say", "do", "dew"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'moon'?",
+            options: ["man", "soon", "mean", "mine"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'pen'?",
+            options: ["pain", "pin", "hen", "pan"],
+            answer: 2
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'blue'?",
+            options: ["blow", "true", "boy", "buy"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'coat'?",
+            options: ["caught", "cut", "boat", "cat"],
+            answer: 2
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'book'?",
+            options: ["back", "look", "bake", "bike"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'rain'?",
+            options: ["ran", "rein", "run", "ring"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'face'?",
+            options: ["fizz", "fees", "place", "fuss"],
+            answer: 2
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'star'?",
+            options: ["stir", "far", "store", "steer"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'near'?",
+            options: ["bear", "fear", "fire", "far"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'cold'?",
+            options: ["called", "could", "bold", "calf"],
+            answer: 2
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'train'?",
+            options: ["tree", "brain", "tone", "turn"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'green'?",
+            options: ["grain", "grin", "scene", "ground"],
+            answer: 2
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'mouse'?",
+            options: ["house", "moose", "mass", "mess"],
+            answer: 0
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'fine'?",
+            options: ["fan", "phone", "line", "fun"],
+            answer: 2
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'road'?",
+            options: ["read", "rode", "rid", "red"],
+            answer: 1
+        },
+
+        {
+            section: "B",
+            question: "Which word rhymes with 'bell'?",
+            options: ["ball", "bill", "well", "bull"],
+            answer: 2
+        }
+
+    ];
+
+
+    /* =========================================
+       VARIABLES
+       ========================================= */
+
+    let questions = [];
+    let currentQuestion = 0;
+    let score = 0;
+    let candidateName = "";
+    let selectedAnswers = [];
+    let timeLeft = 420;
+    let timer;
+
+
+    /* =========================================
+       SHOW NAME PAGE
+       ========================================= */
+
+    function showNamePage() {
+
+        document.getElementById("rulesPage").classList.add("hidden");
+
+        document.getElementById("namePage").classList.remove("hidden");
+
+    }
+
+
+    /* =========================================
+       SHUFFLE ARRAY
+       ========================================= */
+
+    function shuffle(array) {
+
+        let shuffled = [...array];
+
+        for (let i = shuffled.length - 1; i > 0; i--) {
+
+            let j = Math.floor(Math.random() * (i + 1));
+
+            [shuffled[i], shuffled[j]] =
+            [shuffled[j], shuffled[i]];
+
+        }
+
+        return shuffled;
+    }
+
+
+    /* =========================================
+       START TEST
+       ========================================= */
+
+    function startTest() {
+
+        candidateName =
+            document.getElementById("candidateName").value.trim();
+
+        if (candidateName === "") {
+
+            alert("Please enter your name before starting.");
+
+            return;
+        }
+
+
+        /*
+        Select 10 random questions from Section A
+        and 10 random questions from Section B.
+        */
+
+        let sectionA =
+            questionBank.filter(q => q.section === "A");
+
+        let sectionB =
+            questionBank.filter(q => q.section === "B");
+
+
+        sectionA = shuffle(sectionA).slice(0, 10);
+
+        sectionB = shuffle(sectionB).slice(0, 10);
+
+
+        questions = shuffle([
+            ...sectionA,
+            ...sectionB
+        ]);
+
+
+        /*
+        Reset everything
+        */
+
+        currentQuestion = 0;
+        score = 0;
+        selectedAnswers = [];
+
+        timeLeft = 420;
+
+
+        document.getElementById("namePage")
+            .classList.add("hidden");
+
+        document.getElementById("quizPage")
+            .classList.remove("hidden");
+
+
+        showQuestion();
+
+        startTimer();
+
+    }
+
+
+    /* =========================================
+       SHOW QUESTION
+       ========================================= */
+
+    function showQuestion() {
+
+        let q = questions[currentQuestion];
+
+
+        document.getElementById("progress").textContent =
+            "Question " +
+            (currentQuestion + 1) +
+            " of 20";
+
+
+        document.getElementById("sectionTitle").textContent =
+            q.section === "A"
+            ? "Section A"
+            : "Section B";
+
+
+        document.getElementById("questionNumber").textContent =
+            "Question " + (currentQuestion + 1);
+
+
+        document.getElementById("questionText").textContent =
+            q.question;
+
+
+        let answersDiv =
+            document.getElementById("answers");
+
+        answersDiv.innerHTML = "";
+
+
+        q.options.forEach(function(option, index) {
+
+            let button =
+                document.createElement("button");
+
+            button.textContent =
+                String.fromCharCode(65 + index) +
+                ". " +
+                option;
+
+            button.className = "answer";
+
+
+            button.onclick = function() {
+
+                selectAnswer(index);
+
+            };
+
+
+            answersDiv.appendChild(button);
+
+        });
+
+
+        document.getElementById("nextButton")
+            .textContent =
+            currentQuestion === 19
+            ? "Submit Test"
+            : "Next Question";
+
+    }
+
+
+    /* =========================================
+       SELECT ANSWER
+       ========================================= */
+
+    function selectAnswer(index) {
+
+        selectedAnswers[currentQuestion] = index;
+
+
+        let buttons =
+            document.querySelectorAll(".answer");
+
+
+        buttons.forEach(function(button) {
+
+            button.classList.remove("selected");
+
+        });
+
+
+        buttons[index].classList.add("selected");
+
+    }
+
+
+    /* =========================================
+       NEXT QUESTION
+       ========================================= */
+
+    function nextQuestion() {
+
+        if (selectedAnswers[currentQuestion] === undefined) {
+
+            alert("Please select an answer.");
+
+            return;
+        }
+
+
+        if (currentQuestion === 19) {
+
+            submitTest();
+
+            return;
+
+        }
+
+
+        currentQuestion++;
+
+        showQuestion();
+
+    }
+
+
+    /* =========================================
+       TIMER
+       ========================================= */
+
+    function startTimer() {
+
+        timer = setInterval(function() {
+
+            timeLeft--;
+
+
+            let minutes =
+                Math.floor(timeLeft / 60);
+
+            let seconds =
+                timeLeft % 60;
+
+
+            document.getElementById("timer").textContent =
+                "Time: " +
+                String(minutes).padStart(2, "0") +
+                ":" +
+                String(seconds).padStart(2, "0");
+
+
+            if (timeLeft <= 0) {
+
+                clearInterval(timer);
+
+                alert("Time is up. Your test will now be submitted.");
+
+                submitTest();
+
+            }
+
+        }, 1000);
+
+    }
+
+
+    /* =========================================
+       SUBMIT TEST
+       ========================================= */
+
+    function submitTest() {
+
+        clearInterval(timer);
+
+
+        score = 0;
+
+
+        questions.forEach(function(q, index) {
+
+            if (selectedAnswers[index] === q.answer) {
+
+                score++;
+
+            }
+
+        });
+
+
+        showResult();
+
+        sendResultByEmail();
+
+    }
+
+
+    /* =========================================
+       SHOW RESULT
+       ========================================= */
+
+    function showResult() {
+
+        document.getElementById("quizPage")
+            .classList.add("hidden");
+
+        document.getElementById("resultPage")
+            .classList.remove("hidden");
+
+
+        document.getElementById("candidateResultName")
+            .textContent =
+            "Candidate: " + candidateName;
+
+
+        document.getElementById("scoreText")
+            .textContent =
+            "Score: " + score + " / 20";
+
+
+        let passFail =
+            document.getElementById("passFail");
+
+
+        let message =
+            document.getElementById("resultMessage");
+
+
+        if (score >= 16) {
+
+            passFail.textContent =
+                "PASS";
+
+            passFail.className =
+                "pass";
+
+            message.textContent =
+                "Congratulations! You have passed the test.";
+
+        } else {
+
+            passFail.textContent =
+                "FAIL";
+
+            passFail.className =
+                "fail";
+
+            message.textContent =
+                "You did not reach the required pass mark of 16.";
+
+        }
+
+
+        showReview();
+
+    }
+
+
+    /* =========================================
+       SHOW ANSWER REVIEW
+       ========================================= */
+
+    function showReview() {
+
+        let review =
+            document.getElementById("reviewAnswers");
+
+        review.innerHTML = "";
+
+
+        questions.forEach(function(q, index) {
+
+            let box =
+                document.createElement("div");
+
+            box.className =
+                "review-question";
+
+
+            let chosen =
+                selectedAnswers[index];
+
+
+            let chosenText =
+                chosen === undefined
+                ? "No answer selected"
+                : q.options[chosen];
+
+
+            let correctText =
+                q.options[q.answer];
+
+
+            let status =
+                chosen === q.answer
+                ? "Correct"
+                : "Wrong";
+
+
+            let statusClass =
+                chosen === q.answer
+                ? "correct"
+                : "wrong";
+
+
+            box.innerHTML =
+
+                "<strong>Question " +
+                (index + 1) +
+                ":</strong> " +
+                q.question +
+
+                "<br><br>" +
+
+                "Your answer: " +
+                chosenText +
+
+                "<br>" +
+
+                "Correct answer: " +
+                correctText +
+
+                "<br>" +
+
+                "<span class='" +
+                statusClass +
+                "'>" +
+                status +
+                "</span>";
+
+
+            review.appendChild(box);
+
+        });
+
+    }
+
+
+    /* =========================================
+       SEND RESULT TO EMAIL
+       ========================================= */
+
+    function sendResultByEmail() {
+
+        let result =
+            score >= 16
+            ? "PASS"
+            : "FAIL";
+
+
+        let emailForm =
+            document.createElement("form");
+
+
+        emailForm.method = "POST";
+
+        emailForm.action =
+            "https://formsubmit.co/destinyailokpede@gmail.com";
+
+
+        emailForm.target = "_blank";
+
+
+        function addField(name, value) {
+
+            let input =
+                document.createElement("input");
+
+            input.type = "hidden";
+
+            input.name = name;
+
+            input.value = value;
+
+            emailForm.appendChild(input);
+
+        }
+
+
+        addField(
+            "Candidate Name",
+            candidateName
+        );
+
+
+        addField(
+            "Score",
+            score + " / 20"
+        );
+
+
+        addField(
+            "Result",
+            result
+        );
+
+
+        addField(
+            "Subject",
+            "Test of Orals Quiz Result - " +
+            candidateName
+        );
+
+
+        addField(
+            "_captcha",
+            "false"
+        );
+
+
+        document.body.appendChild(emailForm);
+
+        emailForm.submit();
+
+    }
+
+</script>
+
+</body>
+</html>
